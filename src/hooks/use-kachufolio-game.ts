@@ -38,11 +38,11 @@ export function useKachufolioGame() {
 
   useEffect(() => {
     try {
-      if (gameState.numberOfPlayers === null) {
-        // Clear storage when the game is reset (signified by numberOfPlayers being null)
-        localStorage.removeItem(KACHUFOLIO_STORAGE_KEY);
-      } else {
+      // Don't save if we are in the initial state, effectively clearing storage on reset.
+      if (gameState.numberOfPlayers !== null && gameState.currentRoundCount > 0) {
         localStorage.setItem(KACHUFOLIO_STORAGE_KEY, JSON.stringify(gameState));
+      } else {
+        localStorage.removeItem(KACHUFOLIO_STORAGE_KEY);
       }
     } catch (error) {
       console.error("Failed to save game state to local storage", error);
@@ -151,6 +151,8 @@ export function useKachufolioGame() {
   const resetGame = useCallback(() => {
     const confirmation = window.confirm("Are you sure you want to start a new game? All progress will be lost.");
     if (confirmation) {
+      // Explicitly clear storage here, then reset the state.
+      localStorage.removeItem(KACHUFOLIO_STORAGE_KEY);
       setGameState(getInitialState());
     }
   }, []);

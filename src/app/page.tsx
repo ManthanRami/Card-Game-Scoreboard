@@ -23,15 +23,10 @@ export default function Home() {
     currentRoundCount,
   } = useKachufolioGame();
 
-  const handleNewGame = () => {
-    // This will now take the user back to the setup screen.
-    resetGame();
-  };
-
   if (!numberOfPlayers) {
     return (
        <div className="flex min-h-screen w-full flex-col bg-background font-sans text-foreground">
-        <GameHeader onNewGame={handleNewGame} />
+        <GameHeader onNewGame={resetGame} />
         <main className="flex-1 container mx-auto p-2 sm:p-4 md:p-6">
           <GameSetup onGameSetup={setupGame} />
         </main>
@@ -46,7 +41,7 @@ export default function Home() {
 
   return (
     <div className="flex min-h-screen w-full flex-col bg-background font-sans text-foreground">
-      <GameHeader onNewGame={handleNewGame} />
+      <GameHeader onNewGame={resetGame} />
       <main className="flex-1 container mx-auto p-2 sm:p-4 md:p-6">
         {players.length === 0 ? (
           <div className="text-center py-20 px-4">
