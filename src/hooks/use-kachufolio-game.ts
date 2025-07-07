@@ -13,6 +13,7 @@ const getInitialState = (): GameState => ({
   numberOfPlayers: null,
   gameRounds: [],
   currentRoundCount: 0,
+  numberOfDecks: 1,
 });
 
 const getStoredState = (): GameState => {
@@ -24,6 +25,10 @@ const getStoredState = (): GameState => {
       if (savedState) {
         const parsedState = JSON.parse(savedState) as GameState;
         if (parsedState.players && parsedState.scores && parsedState.numberOfPlayers && parsedState.currentRoundCount > 0) {
+           // This ensures backward compatibility for states saved without numberOfDecks
+          if (!('numberOfDecks' in parsedState)) {
+            parsedState.numberOfDecks = 1;
+          }
           return parsedState;
         }
       }
@@ -50,15 +55,16 @@ export function useKachufolioGame() {
     }
   }, [gameState]);
   
-  const setupGame = useCallback((numPlayers: number) => {
+  const setupGame = useCallback((numPlayers: number, numDecks: number) => {
     setGameState(() => {
-        const rounds = generateGameRounds(numPlayers);
+        const rounds = generateGameRounds(numPlayers, numDecks);
         return {
             players: [],
             scores: {},
             numberOfPlayers: numPlayers,
             gameRounds: rounds,
             currentRoundCount: 1,
+            numberOfDecks: numDecks,
         };
     });
   }, []);

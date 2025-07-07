@@ -22,12 +22,13 @@ export interface GameState {
   numberOfPlayers: number | null;
   gameRounds: number[];
   currentRoundCount: number;
+  numberOfDecks: number;
 }
 
-export const generateGameRounds = (numberOfPlayers: number): number[] => {
+export const generateGameRounds = (numberOfPlayers: number, numberOfDecks: number = 1): number[] => {
   if (numberOfPlayers < 2) return [];
   // Standard 52 card deck
-  const maxCards = Math.floor(52 / numberOfPlayers);
+  const maxCards = Math.floor((52 * numberOfDecks) / numberOfPlayers);
   if (maxCards < 1) return [];
 
   const up = Array.from({ length: maxCards }, (_, i) => i + 1);
