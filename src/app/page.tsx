@@ -5,6 +5,7 @@ import { GameHeader } from '@/components/kachufolio/header';
 import { Scoreboard } from '@/components/kachufolio/scoreboard';
 import { useKachufolioGame } from '@/hooks/use-kachufolio-game';
 import { GameSetup } from '@/components/kachufolio/game-setup';
+import { RaceVisualization } from '@/components/kachufolio/race-visualization';
 
 export default function Home() {
   const {
@@ -51,6 +52,7 @@ export default function Home() {
           </div>
         ) : (
           <>
+            <RaceVisualization players={players} totals={totals} />
             <Scoreboard
               players={players}
               scores={scores}
