@@ -16,6 +16,7 @@ const GameSelectionCard = ({ href, title, description, imageUrl, imageHint, icon
               src={imageUrl}
               alt={`${title} game banner`}
               fill={true}
+              sizes="(max-width: 768px) 100vw, 50vw"
               className="object-cover transition-transform duration-300 group-hover:scale-105"
               data-ai-hint={imageHint}
             />
