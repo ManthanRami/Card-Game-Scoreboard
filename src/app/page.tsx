@@ -16,8 +16,7 @@ const GameSelectionCard = ({ href, title, description, imageUrl, imageHint, icon
               src={imageUrl}
               alt={`${title} game banner`}
               fill={true}
-              style={{objectFit: "cover"}}
-              className="transition-transform duration-300 group-hover:scale-105"
+              className="object-cover transition-transform duration-300 group-hover:scale-105"
               data-ai-hint={imageHint}
             />
             <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent" />
