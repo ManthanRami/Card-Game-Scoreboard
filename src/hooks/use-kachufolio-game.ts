@@ -38,7 +38,12 @@ export function useKachufolioGame() {
 
   useEffect(() => {
     try {
-      localStorage.setItem(KACHUFOLIO_STORAGE_KEY, JSON.stringify(gameState));
+      if (gameState.numberOfPlayers === null) {
+        // Clear storage when the game is reset (signified by numberOfPlayers being null)
+        localStorage.removeItem(KACHUFOLIO_STORAGE_KEY);
+      } else {
+        localStorage.setItem(KACHUFOLIO_STORAGE_KEY, JSON.stringify(gameState));
+      }
     } catch (error) {
       console.error("Failed to save game state to local storage", error);
     }

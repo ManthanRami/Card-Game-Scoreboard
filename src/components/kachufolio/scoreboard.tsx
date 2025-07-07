@@ -37,7 +37,7 @@ export function Scoreboard({ players, scores, totals, updateBid, updateTaken, re
           <TableCaption>Kachufol Game Scoreboard</TableCaption>
           <TableHeader>
             <TableRow className="bg-muted/50">
-              <TableHead className="sticky left-0 bg-card z-10 w-[180px] font-semibold">Player</TableHead>
+              <TableHead className="sticky left-0 bg-card z-10 w-[240px] font-semibold">Player</TableHead>
               {roundsToDisplay.map((roundIndex) => {
                 const trumpSuit = trumpSuitSequence[roundIndex % trumpSuitSequence.length];
                 return (
