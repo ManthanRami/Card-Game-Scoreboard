@@ -5,6 +5,7 @@ import { HeartsHeader } from '@/components/hearts/hearts-header';
 import { HeartsScoreboard } from '@/components/hearts/hearts-scoreboard';
 import { useHeartsGame } from '@/hooks/use-hearts-game';
 import { HeartsInitialSetup } from '@/components/hearts/hearts-initial-setup';
+import { AdBanner } from '@/components/ad-banner';
 
 export default function HeartsPage() {
   const {
@@ -32,14 +33,17 @@ export default function HeartsPage() {
     }
 
     return (
-      <HeartsScoreboard
-        players={players}
-        scores={scores}
-        totals={totals}
-        onAddRound={addRoundScores}
-        isGameOver={isGameOver}
-        winner={winner}
-      />
+      <>
+        <HeartsScoreboard
+          players={players}
+          scores={scores}
+          totals={totals}
+          onAddRound={addRoundScores}
+          isGameOver={isGameOver}
+          winner={winner}
+        />
+        <AdBanner />
+      </>
     );
   };
 

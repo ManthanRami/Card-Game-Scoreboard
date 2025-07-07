@@ -5,6 +5,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import Image from 'next/image';
 import { Gamepad2, Heart, Spade } from 'lucide-react';
 import { ThemeToggle } from '@/components/kachufolio/theme-toggle';
+import { AdBanner } from '@/components/ad-banner';
 
 const GameSelectionCard = ({ href, title, description, imageUrl, imageHint, icon: Icon, priority = false }: { href: string; title: string; description: string; imageUrl: string; imageHint: string; icon: React.ElementType; priority?: boolean }) => {
   return (
@@ -74,6 +75,7 @@ export default function GameHub() {
               priority={true}
             />
           </div>
+          <AdBanner />
         </div>
       </main>
        <footer className="text-center p-4 text-sm text-muted-foreground">

@@ -7,6 +7,7 @@ import { GameSetup } from '@/components/kachufolio/game-setup';
 import { RaceVisualization } from '@/components/kachufolio/race-visualization';
 import { Button } from '@/components/ui/button';
 import { PlusCircle } from 'lucide-react';
+import { AdBanner } from '@/components/ad-banner';
 
 export default function KachufolioPage() {
   const {
@@ -64,6 +65,7 @@ export default function KachufolioPage() {
             </Button>
           )}
         </div>
+        <AdBanner />
       </>
     );
   };
