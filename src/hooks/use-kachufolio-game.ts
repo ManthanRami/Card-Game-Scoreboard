@@ -15,30 +15,31 @@ const getInitialState = (): GameState => ({
   currentRoundCount: 0,
 });
 
-export function useKachufolioGame() {
-  const [gameState, setGameState] = useState<GameState>(getInitialState());
-
-  useEffect(() => {
+const getStoredState = (): GameState => {
+    if (typeof window === 'undefined') {
+      return getInitialState();
+    }
     try {
       const savedState = localStorage.getItem(KACHUFOLIO_STORAGE_KEY);
       if (savedState) {
-        const parsedState: any = JSON.parse(savedState);
-        // Basic validation
+        const parsedState = JSON.parse(savedState) as GameState;
         if (parsedState.players && parsedState.scores && parsedState.numberOfPlayers && parsedState.currentRoundCount > 0) {
-          // If the game was in progress, load it.
-          // Clean up old trumpSuits property for backwards compatibility
-          delete parsedState.trumpSuits;
-          setGameState(parsedState as GameState);
+          return parsedState;
         }
       }
     } catch (error) {
       console.error("Failed to load game state from local storage", error);
+      localStorage.removeItem(KACHUFOLIO_STORAGE_KEY);
     }
-  }, []);
+    return getInitialState();
+};
+
+
+export function useKachufolioGame() {
+  const [gameState, setGameState] = useState<GameState>(getStoredState);
 
   useEffect(() => {
     try {
-      // Don't save if we are in the initial state, effectively clearing storage on reset.
       if (gameState.numberOfPlayers !== null && gameState.currentRoundCount > 0) {
         localStorage.setItem(KACHUFOLIO_STORAGE_KEY, JSON.stringify(gameState));
       } else {
@@ -149,12 +150,8 @@ export function useKachufolioGame() {
   }, [updateScoreProperty]);
 
   const resetGame = useCallback(() => {
-    const confirmation = window.confirm("Are you sure you want to start a new game? All progress will be lost.");
-    if (confirmation) {
-      // Explicitly clear storage here, then reset the state.
-      localStorage.removeItem(KACHUFOLIO_STORAGE_KEY);
-      setGameState(getInitialState());
-    }
+    localStorage.removeItem(KACHUFOLIO_STORAGE_KEY);
+    setGameState(getInitialState());
   }, []);
   
   const totals = useMemo(() => {
