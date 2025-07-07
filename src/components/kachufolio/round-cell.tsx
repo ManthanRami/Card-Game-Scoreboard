@@ -17,11 +17,11 @@ export function RoundCell({ score, onBidChange, onTakenChange }: RoundCellProps)
       "p-2 text-center transition-colors",
       isCorrectBid && score.bid !== undefined ? 'bg-green-500/10 dark:bg-green-400/10' : score.bid !== undefined && score.taken !== undefined ? 'bg-red-500/10 dark:bg-red-400/10' : ''
     )}>
-      <div className="flex items-center justify-center gap-2">
+      <div className="flex items-center justify-center gap-1">
         <Input
           type="number"
           min="0"
-          className="w-14 h-8 p-1 text-center"
+          className="w-12 h-8 p-1 text-center"
           placeholder="B"
           value={score.bid ?? ''}
           onChange={(e) => onBidChange(parseInt(e.target.value, 10))}
@@ -30,7 +30,7 @@ export function RoundCell({ score, onBidChange, onTakenChange }: RoundCellProps)
         <Input
           type="number"
           min="0"
-          className="w-14 h-8 p-1 text-center"
+          className="w-12 h-8 p-1 text-center"
           placeholder="T"
           value={score.taken ?? ''}
           onChange={(e) => onTakenChange(parseInt(e.target.value, 10))}

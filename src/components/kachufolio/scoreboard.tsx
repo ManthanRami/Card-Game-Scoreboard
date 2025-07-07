@@ -32,52 +32,50 @@ export function Scoreboard({ players, scores, totals, updateBid, updateTaken, re
 
   return (
     <div className="w-full overflow-hidden rounded-lg border bg-card text-card-foreground shadow-lg">
-      <div className="overflow-x-auto">
-        <Table>
-          <TableCaption>Kachufol Game Scoreboard</TableCaption>
-          <TableHeader>
-            <TableRow className="bg-muted/50">
-              <TableHead className="sticky left-0 bg-card z-10 w-[240px] font-semibold">Player</TableHead>
-              {roundsToDisplay.map((roundIndex) => {
-                const trumpSuit = trumpSuitSequence[roundIndex % trumpSuitSequence.length];
-                return (
-                  <TableHead key={roundIndex} className="text-center w-40">
-                    <div className="font-semibold">Round {roundIndex + 1}</div>
-                    <div className="text-xs font-normal text-muted-foreground mb-1">({gameRounds[roundIndex]} cards)</div>
-                    <div className="flex items-center justify-center h-8 mx-auto">
-                      <SuitDisplay suit={trumpSuit} />
-                    </div>
-                  </TableHead>
-                )
-              })}
-              {canAddRound && (
-                <TableHead className="text-center w-32">
-                  <Button variant="outline" size="sm" onClick={addRound}>
-                    <PlusCircle className="mr-2 h-4 w-4" />
-                    Add Round
-                  </Button>
+      <Table>
+        <TableCaption>Kachufol Game Scoreboard</TableCaption>
+        <TableHeader>
+          <TableRow className="bg-muted/50">
+            <TableHead className="sticky left-0 bg-card z-10 w-[180px] font-semibold">Player</TableHead>
+            {roundsToDisplay.map((roundIndex) => {
+              const trumpSuit = trumpSuitSequence[roundIndex % trumpSuitSequence.length];
+              return (
+                <TableHead key={roundIndex} className="text-center w-36">
+                  <div className="font-semibold">Round {roundIndex + 1}</div>
+                  <div className="text-xs font-normal text-muted-foreground mb-1">({gameRounds[roundIndex]} cards)</div>
+                  <div className="flex items-center justify-center h-8 mx-auto">
+                    <SuitDisplay suit={trumpSuit} />
+                  </div>
                 </TableHead>
-              )}
-              <TableHead className="sticky right-0 bg-card z-10 text-center font-semibold w-[150px]">Total</TableHead>
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            {players.map((player) => (
-              <PlayerRow
-                key={player.id}
-                player={player}
-                playerScores={scores[player.id] || []}
-                totalScore={totals[player.id] || 0}
-                updateBid={updateBid}
-                updateTaken={updateTaken}
-                removePlayer={removePlayer}
-                gameRounds={gameRounds}
-                canAddRound={canAddRound}
-              />
-            ))}
-          </TableBody>
-        </Table>
-      </div>
+              )
+            })}
+            {canAddRound && (
+              <TableHead className="text-center w-32">
+                <Button variant="outline" size="sm" onClick={addRound}>
+                  <PlusCircle className="mr-2 h-4 w-4" />
+                  Add Round
+                </Button>
+              </TableHead>
+            )}
+            <TableHead className="sticky right-0 bg-card z-10 text-center font-semibold w-[150px]">Total</TableHead>
+          </TableRow>
+        </TableHeader>
+        <TableBody>
+          {players.map((player) => (
+            <PlayerRow
+              key={player.id}
+              player={player}
+              playerScores={scores[player.id] || []}
+              totalScore={totals[player.id] || 0}
+              updateBid={updateBid}
+              updateTaken={updateTaken}
+              removePlayer={removePlayer}
+              gameRounds={gameRounds}
+              canAddRound={canAddRound}
+            />
+          ))}
+        </TableBody>
+      </Table>
     </div>
   );
 }

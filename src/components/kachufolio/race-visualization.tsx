@@ -35,7 +35,7 @@ export function RaceVisualization({ players, totals }: RaceVisualizationProps) {
       <CardContent className="p-6 pt-0">
         <div 
             className="relative pr-12"
-            style={{ height: `${sortedPlayers.length * 4.5}rem` }}
+            style={{ height: `${sortedPlayers.length * 3.5}rem` }}
         >
           {sortedPlayers.map((player, index) => {
             const score = totals[player.id] || 0;
@@ -46,7 +46,7 @@ export function RaceVisualization({ players, totals }: RaceVisualizationProps) {
               <div 
                 key={player.id} 
                 className="absolute w-full h-10"
-                style={{ top: `${index * 4.5}rem`}}
+                style={{ top: `${index * 3.5}rem`}}
               >
                 <div className="absolute top-1/2 -translate-y-1/2 w-full h-2 bg-muted rounded-full">
                   <div 
