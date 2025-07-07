@@ -9,12 +9,12 @@ export interface RoundScore {
   score: number;
 }
 
-export type Suit = 'spades' | 'hearts' | 'diamonds' | 'clubs' | 'no-trump';
+export type Suit = 'spades' | 'hearts' | 'diamonds' | 'clubs';
 
-export const Suits: Suit[] = ['spades', 'hearts', 'diamonds', 'clubs', 'no-trump'];
+export const Suits: Suit[] = ['spades', 'hearts', 'diamonds', 'clubs'];
 
 // The predefined, repeating sequence for trump suits.
-export const trumpSuitSequence: Suit[] = ['spades', 'hearts', 'diamonds', 'clubs', 'no-trump'];
+export const trumpSuitSequence: Suit[] = ['spades', 'diamonds', 'clubs', 'hearts'];
 
 export interface GameState {
   players: Player[];

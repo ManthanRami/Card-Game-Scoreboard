@@ -44,9 +44,8 @@ export function Scoreboard({ players, scores, totals, updateBid, updateTaken, re
                   <TableHead key={roundIndex} className="text-center w-40">
                     <div className="font-semibold">Round {roundIndex + 1}</div>
                     <div className="text-xs font-normal text-muted-foreground mb-1">({gameRounds[roundIndex]} cards)</div>
-                    <div className="flex items-center justify-center gap-2 h-8 mx-auto">
+                    <div className="flex items-center justify-center h-8 mx-auto">
                       <SuitDisplay suit={trumpSuit} />
-                      <span className="capitalize">{trumpSuit.replace('-', ' ')}</span>
                     </div>
                   </TableHead>
                 )

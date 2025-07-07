@@ -23,8 +23,5 @@ export function SuitDisplay({ suit, className }: SuitDisplayProps) {
   if (suit === 'clubs') {
     return <span className={cn('text-xl text-foreground', className)}>♣</span>;
   }
-  if (suit === 'no-trump') {
-    return <span className={cn('font-semibold text-sm', className)}>NT</span>;
-  }
   return null;
 }
