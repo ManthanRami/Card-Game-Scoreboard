@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { memo, useState } from 'react';
 import type { Player } from '@/lib/kachufolio';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Label } from '@/components/ui/label';
@@ -17,7 +17,7 @@ interface AddScoresFormProps {
     roundNumber: number;
 }
 
-export function AddScoresForm({ players, onAddRound, roundNumber }: AddScoresFormProps) {
+function AddScoresFormComponent({ players, onAddRound, roundNumber }: AddScoresFormProps) {
     const [scores, setScores] = useState<Record<string, string>>({});
     const [moonShooterId, setMoonShooterId] = useState<string | null>(null);
     const { toast } = useToast();
@@ -130,3 +130,5 @@ export function AddScoresForm({ players, onAddRound, roundNumber }: AddScoresFor
         </Card>
     );
 }
+
+export const AddScoresForm = memo(AddScoresFormComponent);

@@ -11,6 +11,7 @@ import type { Player, RoundScore } from '@/lib/kachufolio';
 import { trumpSuitSequence } from '@/lib/kachufolio';
 import { SuitDisplay } from './suit-display';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { memo } from 'react';
 
 interface ScoreboardProps {
   players: Player[];
@@ -23,7 +24,7 @@ interface ScoreboardProps {
   currentRoundCount: number;
 }
 
-export function Scoreboard({ players, scores, totals, updateBid, updateTaken, removePlayer, gameRounds, currentRoundCount }: ScoreboardProps) {
+function ScoreboardComponent({ players, scores, totals, updateBid, updateTaken, removePlayer, gameRounds, currentRoundCount }: ScoreboardProps) {
   const roundsToDisplay = Array.from({ length: currentRoundCount }, (_, i) => i);
   
   return (
@@ -37,19 +38,19 @@ export function Scoreboard({ players, scores, totals, updateBid, updateTaken, re
             <TableCaption>Kachufol Game Scoreboard</TableCaption>
             <TableHeader>
               <TableRow className="bg-muted/50">
-                <TableHead className="sticky left-0 bg-card z-10 w-[140px] font-semibold text-left">Player</TableHead>
+                <TableHead className="sticky left-0 bg-card z-10 w-[120px] p-2 font-semibold text-left">Player</TableHead>
                 {roundsToDisplay.map((roundIndex) => {
                   const trumpSuit = trumpSuitSequence[roundIndex % trumpSuitSequence.length];
                   return (
-                    <TableHead key={roundIndex} className="text-center w-[100px]">
-                      <div className="font-semibold">R{roundIndex + 1} <span className="text-xs font-normal text-muted-foreground">({gameRounds[roundIndex]})</span></div>
+                    <TableHead key={roundIndex} className="text-center w-[90px]">
+                      <div className="font-semibold text-sm">R{roundIndex + 1} <span className="text-xs font-normal text-muted-foreground">({gameRounds[roundIndex]})</span></div>
                       <div className="flex items-center justify-center h-6 mx-auto">
                         <SuitDisplay suit={trumpSuit} />
                       </div>
                     </TableHead>
                   )
                 })}
-                <TableHead className="sticky right-0 bg-card z-10 text-center font-semibold w-[110px]">Total</TableHead>
+                <TableHead className="sticky right-0 bg-card z-10 text-center font-semibold w-[100px]">Total</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
@@ -72,3 +73,5 @@ export function Scoreboard({ players, scores, totals, updateBid, updateTaken, re
     </Card>
   );
 }
+
+export const Scoreboard = memo(ScoreboardComponent);

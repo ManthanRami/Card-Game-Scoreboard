@@ -1,5 +1,6 @@
 'use client';
 
+import { memo } from 'react';
 import {
   Table,
   TableBody,
@@ -24,7 +25,39 @@ interface HeartsScoreboardProps {
   winner: Player | null;
 }
 
-export function HeartsScoreboard({ players, scores, totals, onAddRound, isGameOver, winner }: HeartsScoreboardProps) {
+interface PlayerScoreRowProps {
+    player: Player;
+    playerScores: number[];
+    playerTotal: number;
+    numRounds: number;
+}
+
+const PlayerScoreRow = memo(function PlayerScoreRow({ player, playerScores, playerTotal, numRounds }: PlayerScoreRowProps) {
+    return (
+        <TableRow>
+            <TableCell>
+                <div className="flex items-center gap-3">
+                    <Avatar className="h-9 w-9">
+                        <AvatarFallback>{player.name.slice(0, 2).toUpperCase()}</AvatarFallback>
+                    </Avatar>
+                    <span className="font-semibold">{player.name}</span>
+                </div>
+            </TableCell>
+            {Array.from({ length: numRounds }).map((_, i) => (
+                <TableCell key={i} className="text-center font-mono">
+                    {playerScores[i] ?? '-'}
+                </TableCell>
+            ))}
+            <TableCell className="text-center">
+                <Badge variant={playerTotal >= 100 ? "destructive" : "secondary"} className="text-base font-bold">
+                    {playerTotal}
+                </Badge>
+            </TableCell>
+        </TableRow>
+    );
+});
+
+function HeartsScoreboardComponent({ players, scores, totals, onAddRound, isGameOver, winner }: HeartsScoreboardProps) {
   const numRounds = players.length > 0 ? (scores[players[0].id]?.length || 0) : 0;
   
   return (
@@ -47,26 +80,13 @@ export function HeartsScoreboard({ players, scores, totals, onAddRound, isGameOv
                         </TableHeader>
                         <TableBody>
                         {players.map(player => (
-                            <TableRow key={player.id}>
-                                <TableCell>
-                                    <div className="flex items-center gap-3">
-                                        <Avatar className="h-9 w-9">
-                                            <AvatarFallback>{player.name.slice(0, 2).toUpperCase()}</AvatarFallback>
-                                        </Avatar>
-                                        <span className="font-semibold">{player.name}</span>
-                                    </div>
-                                </TableCell>
-                                {Array.from({ length: numRounds }).map((_, i) => (
-                                    <TableCell key={i} className="text-center font-mono">
-                                        {scores[player.id]?.[i] ?? '-'}
-                                    </TableCell>
-                                ))}
-                                <TableCell className="text-center">
-                                    <Badge variant={totals[player.id] >= 100 ? "destructive" : "secondary"} className="text-base font-bold">
-                                        {totals[player.id]}
-                                    </Badge>
-                                </TableCell>
-                            </TableRow>
+                           <PlayerScoreRow
+                                key={player.id}
+                                player={player}
+                                playerScores={scores[player.id] || []}
+                                playerTotal={totals[player.id] || 0}
+                                numRounds={numRounds}
+                           />
                         ))}
                         </TableBody>
                     </Table>
@@ -91,3 +111,5 @@ export function HeartsScoreboard({ players, scores, totals, onAddRound, isGameOv
     </div>
   );
 }
+
+export const HeartsScoreboard = memo(HeartsScoreboardComponent);
