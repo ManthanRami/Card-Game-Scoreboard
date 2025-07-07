@@ -14,6 +14,7 @@ export interface GameState {
   scores: Record<string, RoundScore[]>; // Player ID -> Array of round scores
   numberOfPlayers: number | null;
   gameRounds: number[];
+  currentRoundCount: number;
 }
 
 export const generateGameRounds = (numberOfPlayers: number): number[] => {

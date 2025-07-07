@@ -12,6 +12,7 @@ const getInitialState = (): GameState => ({
   scores: {},
   numberOfPlayers: null,
   gameRounds: [],
+  currentRoundCount: 0,
 });
 
 export function useKachufolioGame() {
@@ -23,7 +24,7 @@ export function useKachufolioGame() {
       if (savedState) {
         const parsedState: GameState = JSON.parse(savedState);
         // Basic validation
-        if (parsedState.players && parsedState.scores && parsedState.numberOfPlayers) {
+        if (parsedState.players && parsedState.scores && parsedState.numberOfPlayers && parsedState.currentRoundCount > 0) {
           // If the game was in progress, load it.
           setGameState(parsedState);
         }
@@ -48,7 +49,8 @@ export function useKachufolioGame() {
             players: [],
             scores: {},
             numberOfPlayers: numPlayers,
-            gameRounds: rounds
+            gameRounds: rounds,
+            currentRoundCount: 1,
         };
     });
   }, []);
@@ -61,11 +63,30 @@ export function useKachufolioGame() {
         return prev;
       }
       const newPlayer: Player = { id: simpleId(), name };
-      const newPlayerScores = Array(prev.gameRounds.length).fill({}).map(() => ({ score: 0 }));
+      const newPlayerScores = Array(prev.currentRoundCount).fill({}).map(() => ({ score: 0 }));
       return {
         ...prev,
         players: [...prev.players, newPlayer],
         scores: { ...prev.scores, [newPlayer.id]: newPlayerScores },
+      };
+    });
+  }, []);
+
+  const addRound = useCallback(() => {
+    setGameState((prev) => {
+      if (prev.currentRoundCount >= prev.gameRounds.length || prev.players.length === 0) {
+        return prev;
+      }
+
+      const newScores = { ...prev.scores };
+      for (const player of prev.players) {
+        newScores[player.id] = [...(newScores[player.id] || []), { score: 0 }];
+      }
+
+      return {
+        ...prev,
+        currentRoundCount: prev.currentRoundCount + 1,
+        scores: newScores,
       };
     });
   }, []);
@@ -144,6 +165,7 @@ export function useKachufolioGame() {
     updateBid,
     updateTaken,
     resetGame,
+    addRound,
     totals,
   };
 }

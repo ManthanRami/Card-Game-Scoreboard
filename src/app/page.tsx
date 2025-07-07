@@ -20,6 +20,8 @@ export default function Home() {
     numberOfPlayers,
     gameRounds,
     setupGame,
+    addRound,
+    currentRoundCount,
   } = useKachufolioGame();
 
   const handleNewGame = () => {
@@ -63,6 +65,8 @@ export default function Home() {
               updateTaken={updateTaken}
               removePlayer={removePlayer}
               gameRounds={gameRounds}
+              addRound={addRound}
+              currentRoundCount={currentRoundCount}
             />
             <div className="mt-8 flex flex-col sm:flex-row items-center justify-between gap-4">
               { !allPlayersAdded ? <AddPlayerForm onAddPlayer={addPlayer} /> : <div className="text-sm text-muted-foreground">All {numberOfPlayers} players have been added.</div> }
