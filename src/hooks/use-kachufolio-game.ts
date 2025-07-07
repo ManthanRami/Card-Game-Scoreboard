@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect, useCallback, useMemo } from 'react';
-import { generateGameRounds, calculateScore, type Player, type GameState, type Suit } from '@/lib/kachufolio';
+import { generateGameRounds, calculateScore, type Player, type GameState } from '@/lib/kachufolio';
 
 const simpleId = () => Math.random().toString(36).substring(2, 9);
 
@@ -13,7 +13,6 @@ const getInitialState = (): GameState => ({
   numberOfPlayers: null,
   gameRounds: [],
   currentRoundCount: 0,
-  trumpSuits: [],
 });
 
 export function useKachufolioGame() {
@@ -23,14 +22,13 @@ export function useKachufolioGame() {
     try {
       const savedState = localStorage.getItem(KACHUFOLIO_STORAGE_KEY);
       if (savedState) {
-        const parsedState: GameState = JSON.parse(savedState);
+        const parsedState: any = JSON.parse(savedState);
         // Basic validation
         if (parsedState.players && parsedState.scores && parsedState.numberOfPlayers && parsedState.currentRoundCount > 0) {
           // If the game was in progress, load it.
-          if (!parsedState.trumpSuits) {
-            parsedState.trumpSuits = Array(parsedState.currentRoundCount).fill(undefined);
-          }
-          setGameState(parsedState);
+          // Clean up old trumpSuits property for backwards compatibility
+          delete parsedState.trumpSuits;
+          setGameState(parsedState as GameState);
         }
       }
     } catch (error) {
@@ -55,7 +53,6 @@ export function useKachufolioGame() {
             numberOfPlayers: numPlayers,
             gameRounds: rounds,
             currentRoundCount: 1,
-            trumpSuits: [undefined],
         };
     });
   }, []);
@@ -92,7 +89,6 @@ export function useKachufolioGame() {
         ...prev,
         currentRoundCount: prev.currentRoundCount + 1,
         scores: newScores,
-        trumpSuits: [...prev.trumpSuits, undefined],
       };
     });
   }, []);
@@ -147,18 +143,6 @@ export function useKachufolioGame() {
     updateScoreProperty(playerId, roundIndex, 'taken', taken);
   }, [updateScoreProperty]);
 
-  const updateTrumpSuit = useCallback((roundIndex: number, suit: Suit) => {
-    setGameState((prev) => {
-      if (roundIndex < 0 || roundIndex >= prev.trumpSuits.length) return prev;
-      const newTrumpSuits = [...prev.trumpSuits];
-      newTrumpSuits[roundIndex] = suit;
-      return {
-        ...prev,
-        trumpSuits: newTrumpSuits,
-      };
-    });
-  }, []);
-
   const resetGame = useCallback(() => {
     const confirmation = window.confirm("Are you sure you want to start a new game? All progress will be lost.");
     if (confirmation) {
@@ -185,6 +169,5 @@ export function useKachufolioGame() {
     resetGame,
     addRound,
     totals,
-    updateTrumpSuit,
   };
 }
