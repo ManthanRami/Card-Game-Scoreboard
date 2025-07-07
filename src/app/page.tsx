@@ -22,6 +22,8 @@ export default function Home() {
     setupGame,
     addRound,
     currentRoundCount,
+    trumpSuits,
+    updateTrumpSuit,
   } = useKachufolioGame();
 
   const handleNewGame = () => {
@@ -67,6 +69,8 @@ export default function Home() {
               gameRounds={gameRounds}
               addRound={addRound}
               currentRoundCount={currentRoundCount}
+              trumpSuits={trumpSuits}
+              updateTrumpSuit={updateTrumpSuit}
             />
             <div className="mt-8 flex flex-col sm:flex-row items-center justify-between gap-4">
               { !allPlayersAdded ? <AddPlayerForm onAddPlayer={addPlayer} /> : <div className="text-sm text-muted-foreground">All {numberOfPlayers} players have been added.</div> }

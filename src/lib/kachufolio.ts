@@ -9,12 +9,17 @@ export interface RoundScore {
   score: number;
 }
 
+export type Suit = 'spades' | 'hearts' | 'diamonds' | 'clubs' | 'no-trump';
+
+export const Suits: Suit[] = ['spades', 'hearts', 'diamonds', 'clubs', 'no-trump'];
+
 export interface GameState {
   players: Player[];
   scores: Record<string, RoundScore[]>; // Player ID -> Array of round scores
   numberOfPlayers: number | null;
   gameRounds: number[];
   currentRoundCount: number;
+  trumpSuits: (Suit | undefined)[];
 }
 
 export const generateGameRounds = (numberOfPlayers: number): number[] => {

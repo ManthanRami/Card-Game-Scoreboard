@@ -8,9 +8,18 @@ import {
   TableRow,
 } from '@/components/ui/table';
 import { PlayerRow } from './player-row';
-import type { Player, RoundScore } from '@/lib/kachufolio';
+import type { Player, RoundScore, Suit } from '@/lib/kachufolio';
 import { Button } from '@/components/ui/button';
 import { PlusCircle } from 'lucide-react';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
+import { Suits } from '@/lib/kachufolio';
+import { SuitDisplay } from './suit-display';
 
 interface ScoreboardProps {
   players: Player[];
@@ -22,9 +31,11 @@ interface ScoreboardProps {
   gameRounds: number[];
   addRound: () => void;
   currentRoundCount: number;
+  trumpSuits: (Suit | undefined)[];
+  updateTrumpSuit: (roundIndex: number, suit: Suit) => void;
 }
 
-export function Scoreboard({ players, scores, totals, updateBid, updateTaken, removePlayer, gameRounds, addRound, currentRoundCount }: ScoreboardProps) {
+export function Scoreboard({ players, scores, totals, updateBid, updateTaken, removePlayer, gameRounds, addRound, currentRoundCount, trumpSuits, updateTrumpSuit }: ScoreboardProps) {
   const roundsToDisplay = Array.from({ length: currentRoundCount }, (_, i) => i);
   const canAddRound = currentRoundCount < gameRounds.length;
 
@@ -37,9 +48,29 @@ export function Scoreboard({ players, scores, totals, updateBid, updateTaken, re
             <TableRow className="bg-muted/50">
               <TableHead className="sticky left-0 bg-card z-10 w-[180px] font-semibold">Player</TableHead>
               {roundsToDisplay.map((roundIndex) => (
-                <TableHead key={roundIndex} className="text-center w-36">
-                  <div>Round {roundIndex + 1}</div>
-                  <div className="text-xs font-normal text-muted-foreground">({gameRounds[roundIndex]} cards)</div>
+                <TableHead key={roundIndex} className="text-center w-40">
+                  <div className="font-semibold">Round {roundIndex + 1}</div>
+                  <div className="text-xs font-normal text-muted-foreground mb-1">({gameRounds[roundIndex]} cards)</div>
+                  <Select
+                    value={trumpSuits[roundIndex]}
+                    onValueChange={(suit: Suit) => updateTrumpSuit(roundIndex, suit)}
+                  >
+                    <SelectTrigger className="h-8 w-24 mx-auto">
+                      <SelectValue placeholder="Suit?">
+                        <SuitDisplay suit={trumpSuits[roundIndex]} />
+                      </SelectValue>
+                    </SelectTrigger>
+                    <SelectContent>
+                      {Suits.map((suit) => (
+                        <SelectItem key={suit} value={suit}>
+                          <div className="flex items-center gap-2">
+                            <SuitDisplay suit={suit} />
+                            <span className="capitalize">{suit.replace('-', ' ')}</span>
+                          </div>
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
                 </TableHead>
               ))}
               {canAddRound && (
