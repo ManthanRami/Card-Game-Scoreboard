@@ -7,7 +7,7 @@ import { Gamepad2, Heart, Spade } from 'lucide-react';
 import { ThemeToggle } from '@/components/kachufolio/theme-toggle';
 import { AdBanner } from '@/components/ad-banner';
 
-const GameSelectionCard = ({ href, title, description, imageUrl, imageHint, icon: Icon, priority = false }: { href: string; title: string; description: string; imageUrl: string; imageHint: string; icon: React.ElementType; priority?: boolean }) => {
+const GameSelectionCard = ({ href, title, description, imageUrl, imageHint, icon, priority = false }: { href: string; title: string; description: string; imageUrl: string; imageHint: string; icon: React.ReactNode; priority?: boolean }) => {
   return (
     <Link href={href} className="block group">
       <Card className="overflow-hidden transition-all duration-300 ease-in-out hover:shadow-2xl hover:-translate-y-2 hover:border-primary">
@@ -24,7 +24,7 @@ const GameSelectionCard = ({ href, title, description, imageUrl, imageHint, icon
             />
             <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent" />
             <div className="absolute bottom-4 left-4 flex items-center gap-3">
-              <Icon className="h-10 w-10 text-white drop-shadow-lg" />
+              {icon}
               <CardTitle className="text-3xl font-bold text-white drop-shadow-lg">{title}</CardTitle>
             </div>
           </div>
@@ -62,7 +62,7 @@ export default function GameHub() {
               description="A modern scoreboard for the strategic Indian card game, Kachuful. Track bids, tricks, and scores with ease."
               imageUrl="https://placehold.co/600x400.png"
               imageHint="playing cards abstract"
-              icon={Spade}
+              icon={<Spade className="h-10 w-10 text-black fill-black drop-shadow-lg" />}
               priority={true}
             />
             <GameSelectionCard 
@@ -71,7 +71,7 @@ export default function GameHub() {
               description="The classic trick-taking game where the goal is to score as few points as possible. Avoid hearts and the Queen of Spades!"
               imageUrl="https://placehold.co/600x400.png"
               imageHint="heart abstract red"
-              icon={Heart}
+              icon={<Heart className="h-10 w-10 text-red-500 fill-red-500 drop-shadow-lg" />}
               priority={true}
             />
           </div>
