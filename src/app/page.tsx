@@ -6,7 +6,7 @@ import Image from 'next/image';
 import { Gamepad2, Heart, Spade } from 'lucide-react';
 import { ThemeToggle } from '@/components/kachufolio/theme-toggle';
 
-const GameSelectionCard = ({ href, title, description, imageUrl, imageHint, icon: Icon }: { href: string; title: string; description: string; imageUrl: string; imageHint: string; icon: React.ElementType }) => {
+const GameSelectionCard = ({ href, title, description, imageUrl, imageHint, icon: Icon, priority = false }: { href: string; title: string; description: string; imageUrl: string; imageHint: string; icon: React.ElementType; priority?: boolean }) => {
   return (
     <Link href={href} className="block group">
       <Card className="overflow-hidden transition-all duration-300 ease-in-out hover:shadow-2xl hover:-translate-y-2 hover:border-primary">
@@ -19,6 +19,7 @@ const GameSelectionCard = ({ href, title, description, imageUrl, imageHint, icon
               className="object-cover transition-transform duration-300 group-hover:scale-105"
               data-ai-hint={imageHint}
               sizes="(max-width: 768px) 100vw, 50vw"
+              priority={priority}
             />
             <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent" />
             <div className="absolute bottom-4 left-4 flex items-center gap-3">
@@ -61,6 +62,7 @@ export default function GameHub() {
               imageUrl="https://placehold.co/600x400.png"
               imageHint="playing cards abstract"
               icon={Spade}
+              priority={true}
             />
             <GameSelectionCard 
               href="/hearts"
@@ -69,6 +71,7 @@ export default function GameHub() {
               imageUrl="https://placehold.co/600x400.png"
               imageHint="heart abstract red"
               icon={Heart}
+              priority={true}
             />
           </div>
         </div>
