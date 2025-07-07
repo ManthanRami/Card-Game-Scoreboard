@@ -12,6 +12,8 @@ export default function HeartsPage() {
     scores,
     totals,
     addPlayer,
+    removePlayer,
+    reorderPlayers,
     addRoundScores,
     resetGame,
     isGameOver,
@@ -26,7 +28,7 @@ export default function HeartsPage() {
     }
 
     if (players.length < numberOfPlayers) {
-      return <HeartsGameSetup players={players} onAddPlayer={addPlayer} numberOfPlayers={numberOfPlayers} />;
+      return <HeartsGameSetup players={players} onAddPlayer={addPlayer} onRemovePlayer={removePlayer} onReorderPlayers={reorderPlayers} numberOfPlayers={numberOfPlayers} />;
     }
 
     return (

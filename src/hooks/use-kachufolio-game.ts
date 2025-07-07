@@ -118,6 +118,28 @@ export function useKachufolioGame() {
     });
   }, []);
 
+  const reorderPlayers = useCallback((sourceIndex: number, destinationIndex: number) => {
+    setGameState(prev => {
+      if (
+        sourceIndex < 0 ||
+        sourceIndex >= prev.players.length ||
+        destinationIndex < 0 ||
+        destinationIndex >= prev.players.length
+      ) {
+        return prev;
+      }
+
+      const newPlayers = [...prev.players];
+      const [movedPlayer] = newPlayers.splice(sourceIndex, 1);
+      newPlayers.splice(destinationIndex, 0, movedPlayer);
+
+      return {
+        ...prev,
+        players: newPlayers,
+      };
+    });
+  }, []);
+
   const updateScoreProperty = useCallback((playerId: string, roundIndex: number, property: 'bid' | 'taken', value: number) => {
     setGameState((prev) => {
       if (!prev.scores[playerId] || !prev.scores[playerId][roundIndex]) return prev;
@@ -175,6 +197,7 @@ export function useKachufolioGame() {
     setupGame,
     addPlayer,
     removePlayer,
+    reorderPlayers,
     updateBid,
     updateTaken,
     resetGame,

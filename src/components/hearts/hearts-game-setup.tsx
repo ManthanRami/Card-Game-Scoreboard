@@ -4,15 +4,18 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { AddPlayerForm } from '../kachufolio/add-player-form';
 import type { Player } from '@/lib/kachufolio';
 import { Avatar, AvatarFallback } from '../ui/avatar';
-import { Users } from 'lucide-react';
+import { Users, ArrowUp, ArrowDown, Trash2 } from 'lucide-react';
+import { Button } from '../ui/button';
 
 interface HeartsGameSetupProps {
     players: Player[];
     onAddPlayer: (name: string) => void;
+    onRemovePlayer: (playerId: string) => void;
+    onReorderPlayers: (sourceIndex: number, destinationIndex: number) => void;
     numberOfPlayers: number;
 }
 
-export function HeartsGameSetup({ players, onAddPlayer, numberOfPlayers }: HeartsGameSetupProps) {
+export function HeartsGameSetup({ players, onAddPlayer, onRemovePlayer, onReorderPlayers, numberOfPlayers }: HeartsGameSetupProps) {
   const playersNeeded = numberOfPlayers - players.length;
 
   return (
@@ -31,12 +34,25 @@ export function HeartsGameSetup({ players, onAddPlayer, numberOfPlayers }: Heart
                         <h3 className="text-sm font-medium text-muted-foreground">Players Joined ({players.length}/{numberOfPlayers})</h3>
                         {players.length > 0 ? (
                             <ul className="space-y-2">
-                                {players.map(p => (
-                                    <li key={p.id} className="flex items-center gap-3 p-2 rounded-md bg-muted/50">
-                                        <Avatar className="h-8 w-8">
-                                            <AvatarFallback>{p.name.slice(0, 2).toUpperCase()}</AvatarFallback>
-                                        </Avatar>
-                                        <span className="font-medium">{p.name}</span>
+                                {players.map((p, index) => (
+                                    <li key={p.id} className="flex items-center justify-between gap-3 p-2 rounded-md bg-muted/50">
+                                        <div className="flex items-center gap-3">
+                                            <Avatar className="h-8 w-8">
+                                                <AvatarFallback>{p.name.slice(0, 2).toUpperCase()}</AvatarFallback>
+                                            </Avatar>
+                                            <span className="font-medium">{p.name}</span>
+                                        </div>
+                                        <div className="flex items-center gap-1">
+                                            <Button variant="ghost" size="icon" className="h-7 w-7" onClick={() => onReorderPlayers(index, index - 1)} disabled={index === 0} aria-label="Move player up">
+                                                <ArrowUp className="h-4 w-4" />
+                                            </Button>
+                                            <Button variant="ghost" size="icon" className="h-7 w-7" onClick={() => onReorderPlayers(index, index + 1)} disabled={index === players.length - 1} aria-label="Move player down">
+                                                <ArrowDown className="h-4 w-4" />
+                                            </Button>
+                                            <Button variant="ghost" size="icon" className="h-7 w-7 text-destructive/70 hover:text-destructive" onClick={() => onRemovePlayer(p.id)} aria-label={`Remove ${p.name}`}>
+                                                <Trash2 className="h-4 w-4" />
+                                            </Button>
+                                        </div>
                                     </li>
                                 ))}
                             </ul>

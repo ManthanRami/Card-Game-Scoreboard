@@ -74,6 +74,34 @@ export function useHeartsGame() {
     });
   }, []);
 
+  const removePlayer = useCallback((playerId: string) => {
+    setGameState(prev => {
+      const newPlayers = prev.players.filter(p => p.id !== playerId);
+      if (newPlayers.length === prev.players.length) return prev;
+
+      const newScores = { ...prev.scores };
+      delete newScores[playerId];
+
+      return {
+        ...prev,
+        players: newPlayers,
+        scores: newScores,
+      };
+    });
+  }, []);
+
+  const reorderPlayers = useCallback((sourceIndex: number, destinationIndex: number) => {
+    setGameState(prev => {
+      if (sourceIndex < 0 || sourceIndex >= prev.players.length || destinationIndex < 0 || destinationIndex >= prev.players.length) {
+        return prev;
+      }
+      const newPlayers = [...prev.players];
+      const [movedPlayer] = newPlayers.splice(sourceIndex, 1);
+      newPlayers.splice(destinationIndex, 0, movedPlayer);
+      return { ...prev, players: newPlayers };
+    });
+  }, []);
+
   const addRoundScores = useCallback((roundScores: Record<string, number>) => {
     setGameState(prev => {
         const newScores = { ...prev.scores };
@@ -134,6 +162,8 @@ export function useHeartsGame() {
     numberOfPlayers: gameState.numberOfPlayers,
     setupGame,
     addPlayer,
+    removePlayer,
+    reorderPlayers,
     addRoundScores,
     resetGame,
     totals,

@@ -17,6 +17,7 @@ export default function KachufolioPage() {
     updateTaken,
     resetGame,
     removePlayer,
+    reorderPlayers,
     totals,
     numberOfPlayers,
     gameRounds,
@@ -32,6 +33,8 @@ export default function KachufolioPage() {
         <GameSetup
           onGameSetup={setupGame}
           onAddPlayer={addPlayer}
+          onRemovePlayer={removePlayer}
+          onReorderPlayers={reorderPlayers}
           players={players}
           numberOfPlayers={numberOfPlayers}
         />
