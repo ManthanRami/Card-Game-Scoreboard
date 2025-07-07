@@ -7,7 +7,6 @@ import { GameSetup } from '@/components/kachufolio/game-setup';
 import { RaceVisualization } from '@/components/kachufolio/race-visualization';
 import { Button } from '@/components/ui/button';
 import { PlusCircle } from 'lucide-react';
-import { KachufolioGameSetup } from '@/components/kachufolio/kachufolio-game-setup';
 
 export default function KachufolioPage() {
   const {
@@ -27,12 +26,16 @@ export default function KachufolioPage() {
   } = useKachufolioGame();
 
   const renderContent = () => {
-    if (!numberOfPlayers) {
-      return <GameSetup onGameSetup={setupGame} />;
-    }
-
-    if (players.length < numberOfPlayers) {
-      return <KachufolioGameSetup players={players} onAddPlayer={addPlayer} numberOfPlayers={numberOfPlayers} />;
+    // If the game isn't fully set up (either config is missing or players are missing), show the setup component.
+    if (!numberOfPlayers || players.length < numberOfPlayers) {
+      return (
+        <GameSetup
+          onGameSetup={setupGame}
+          onAddPlayer={addPlayer}
+          players={players}
+          numberOfPlayers={numberOfPlayers}
+        />
+      );
     }
 
     const canAddRound = currentRoundCount < gameRounds.length;
