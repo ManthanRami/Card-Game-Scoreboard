@@ -9,11 +9,13 @@ const HEARTS_STORAGE_KEY = 'hearts-game-state';
 interface HeartsGameState {
   players: Player[];
   scores: Record<string, number[]>;
+  numberOfPlayers: number | null;
 }
 
 const getInitialState = (): HeartsGameState => ({
   players: [],
   scores: {},
+  numberOfPlayers: null,
 });
 
 const getStoredState = (): HeartsGameState => {
@@ -24,7 +26,7 @@ const getStoredState = (): HeartsGameState => {
       const savedState = localStorage.getItem(HEARTS_STORAGE_KEY);
       if (savedState) {
         const parsedState = JSON.parse(savedState) as HeartsGameState;
-        if (parsedState.players && parsedState.scores) {
+        if (parsedState.players && parsedState.scores && parsedState.numberOfPlayers) {
           return parsedState;
         }
       }
@@ -40,7 +42,7 @@ export function useHeartsGame() {
 
   useEffect(() => {
     try {
-      if (gameState.players.length > 0) {
+      if (gameState.numberOfPlayers) {
         localStorage.setItem(HEARTS_STORAGE_KEY, JSON.stringify(gameState));
       } else {
         localStorage.removeItem(HEARTS_STORAGE_KEY);
@@ -50,9 +52,17 @@ export function useHeartsGame() {
     }
   }, [gameState]);
 
+  const setupGame = useCallback((numPlayers: number) => {
+    setGameState({
+      players: [],
+      scores: {},
+      numberOfPlayers: numPlayers,
+    });
+  }, []);
+
   const addPlayer = useCallback((name: string) => {
     setGameState((prev) => {
-      if (prev.players.length >= 4) return prev;
+      if (!prev.numberOfPlayers || prev.players.length >= prev.numberOfPlayers) return prev;
       if (prev.players.some(p => p.name.toLowerCase() === name.toLowerCase())) return prev;
       
       const newPlayer: Player = { id: simpleId(), name };
@@ -89,7 +99,7 @@ export function useHeartsGame() {
     let winningPlayer: Player | null = null;
     let lowestScore = Infinity;
 
-    if (gameState.players.length < 4) {
+    if (!gameState.numberOfPlayers || gameState.players.length < gameState.numberOfPlayers) {
       return { totals: {}, isGameOver: false, winner: null };
     }
 
@@ -116,11 +126,13 @@ export function useHeartsGame() {
     }
 
     return { totals: playerTotals, isGameOver: gameOver, winner: winningPlayer };
-  }, [gameState.scores, gameState.players]);
+  }, [gameState.scores, gameState.players, gameState.numberOfPlayers]);
 
   return {
     players: gameState.players,
     scores: gameState.scores,
+    numberOfPlayers: gameState.numberOfPlayers,
+    setupGame,
     addPlayer,
     addRoundScores,
     resetGame,

@@ -1,6 +1,5 @@
 'use client';
 
-import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { AddPlayerForm } from '../kachufolio/add-player-form';
 import type { Player } from '@/lib/kachufolio';
@@ -10,10 +9,11 @@ import { Users } from 'lucide-react';
 interface HeartsGameSetupProps {
     players: Player[];
     onAddPlayer: (name: string) => void;
+    numberOfPlayers: number;
 }
 
-export function HeartsGameSetup({ players, onAddPlayer }: HeartsGameSetupProps) {
-  const playersNeeded = 4 - players.length;
+export function HeartsGameSetup({ players, onAddPlayer, numberOfPlayers }: HeartsGameSetupProps) {
+  const playersNeeded = numberOfPlayers - players.length;
 
   return (
      <div className="flex items-center justify-center min-h-[calc(100vh-12rem)]">
@@ -21,14 +21,14 @@ export function HeartsGameSetup({ players, onAddPlayer }: HeartsGameSetupProps) 
             <CardHeader>
                 <CardTitle className="flex items-center gap-2"><Users /> Hearts Game Setup</CardTitle>
                 <CardDescription>
-                    Hearts is played with 4 players. Add the players to begin.
+                    The game is set for {numberOfPlayers} players. Add them below to begin.
                 </CardDescription>
             </CardHeader>
             <CardContent>
                 <div className="space-y-4">
                     <AddPlayerForm onAddPlayer={onAddPlayer} />
                     <div className="space-y-2 pt-4">
-                        <h3 className="text-sm font-medium text-muted-foreground">Players Joined ({players.length}/4)</h3>
+                        <h3 className="text-sm font-medium text-muted-foreground">Players Joined ({players.length}/{numberOfPlayers})</h3>
                         {players.length > 0 ? (
                             <ul className="space-y-2">
                                 {players.map(p => (
@@ -46,7 +46,7 @@ export function HeartsGameSetup({ players, onAddPlayer }: HeartsGameSetupProps) 
                     </div>
                 </div>
             </CardContent>
-            {players.length < 4 && (
+            {players.length < numberOfPlayers && (
                 <CardFooter>
                     <p className="text-sm text-muted-foreground w-full text-center">
                         Waiting for {playersNeeded} more player{playersNeeded > 1 ? 's' : ''}.

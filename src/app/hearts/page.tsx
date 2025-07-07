@@ -4,6 +4,7 @@ import { HeartsGameSetup } from '@/components/hearts/hearts-game-setup';
 import { HeartsHeader } from '@/components/hearts/hearts-header';
 import { HeartsScoreboard } from '@/components/hearts/hearts-scoreboard';
 import { useHeartsGame } from '@/hooks/use-hearts-game';
+import { HeartsInitialSetup } from '@/components/hearts/hearts-initial-setup';
 
 export default function HeartsPage() {
   const {
@@ -15,24 +16,36 @@ export default function HeartsPage() {
     resetGame,
     isGameOver,
     winner,
+    numberOfPlayers,
+    setupGame,
   } = useHeartsGame();
+
+  const renderContent = () => {
+    if (!numberOfPlayers) {
+      return <HeartsInitialSetup onGameSetup={setupGame} />;
+    }
+
+    if (players.length < numberOfPlayers) {
+      return <HeartsGameSetup players={players} onAddPlayer={addPlayer} numberOfPlayers={numberOfPlayers} />;
+    }
+
+    return (
+      <HeartsScoreboard
+        players={players}
+        scores={scores}
+        totals={totals}
+        onAddRound={addRoundScores}
+        isGameOver={isGameOver}
+        winner={winner}
+      />
+    );
+  };
 
   return (
     <div className="flex min-h-screen w-full flex-col bg-background font-sans text-foreground">
       <HeartsHeader onNewGame={resetGame} />
       <main className="flex-1 container mx-auto p-2 sm:p-4 md:p-6">
-        {players.length < 4 ? (
-           <HeartsGameSetup players={players} onAddPlayer={addPlayer} />
-        ) : (
-          <HeartsScoreboard
-            players={players}
-            scores={scores}
-            totals={totals}
-            onAddRound={addRoundScores}
-            isGameOver={isGameOver}
-            winner={winner}
-          />
-        )}
+        {renderContent()}
       </main>
       <footer className="text-center p-4 text-sm text-muted-foreground">
           <p>Take no prisoners... or points.</p>
