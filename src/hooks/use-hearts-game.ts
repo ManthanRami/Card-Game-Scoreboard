@@ -121,40 +121,44 @@ export function useHeartsGame() {
     setGameState(getInitialState());
   }, []);
 
-  const { totals, isGameOver, winner } = useMemo(() => {
+  const totals = useMemo(() => {
     const playerTotals: Record<string, number> = {};
-    let gameOver = false;
-    let winningPlayer: Player | null = null;
-    let lowestScore = Infinity;
-
     if (!gameState.numberOfPlayers || gameState.players.length < gameState.numberOfPlayers) {
-      return { totals: {}, isGameOver: false, winner: null };
+      return {};
     }
 
     for (const player of gameState.players) {
-        const total = (gameState.scores[player.id] || []).reduce((acc, score) => acc + score, 0);
-        playerTotals[player.id] = total;
-        if (total >= 100) {
-            gameOver = true;
-        }
+      playerTotals[player.id] = (gameState.scores[player.id] || []).reduce((acc, score) => acc + score, 0);
     }
-
-    if (gameOver) {
-        for (const player of gameState.players) {
-            if (playerTotals[player.id] < lowestScore) {
-                lowestScore = playerTotals[player.id];
-                winningPlayer = player;
-            } else if (playerTotals[player.id] === lowestScore) {
-              // In case of a tie, there can be multiple winners
-              // For simplicity, we can just show the first one or handle it as a draw.
-              // Here we are just picking the last one in the loop. A real app might handle this differently.
-              winningPlayer = player;
-            }
-        }
-    }
-
-    return { totals: playerTotals, isGameOver: gameOver, winner: winningPlayer };
+    return playerTotals;
   }, [gameState.scores, gameState.players, gameState.numberOfPlayers]);
+
+  const { isGameOver, winner } = useMemo(() => {
+    const playerScores = Object.entries(totals);
+    if (playerScores.length === 0) {
+      return { isGameOver: false, winner: null };
+    }
+    
+    const gameOver = playerScores.some(([, score]) => score >= 100);
+    if (!gameOver) {
+      return { isGameOver: false, winner: null };
+    }
+
+    let lowestScore = Infinity;
+    let winnerId: string | null = null;
+
+    for (const [playerId, score] of playerScores) {
+      if (score < lowestScore) {
+        lowestScore = score;
+        winnerId = playerId;
+      }
+    }
+    
+    const winningPlayer = gameState.players.find(p => p.id === winnerId) || null;
+
+    return { isGameOver: true, winner: winningPlayer };
+  }, [totals, gameState.players]);
+
 
   return {
     players: gameState.players,
