@@ -11,14 +11,14 @@ const GameSelectionCard = ({ href, title, description, imageUrl, imageHint, icon
     <Link href={href} className="block group">
       <Card className="overflow-hidden transition-all duration-300 ease-in-out hover:shadow-2xl hover:-translate-y-2 hover:border-primary">
         <CardHeader className="p-0">
-          <div className="relative h-48 w-full">
+          <div className="relative w-full aspect-[3/2]">
             <Image
               src={imageUrl}
               alt={`${title} game banner`}
-              fill={true}
-              sizes="(max-width: 768px) 100vw, 50vw"
+              fill
               className="object-cover transition-transform duration-300 group-hover:scale-105"
               data-ai-hint={imageHint}
+              sizes="(max-width: 768px) 100vw, 50vw"
             />
             <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent" />
             <div className="absolute bottom-4 left-4 flex items-center gap-3">
