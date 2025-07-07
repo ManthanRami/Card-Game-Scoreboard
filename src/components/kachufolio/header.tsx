@@ -1,6 +1,6 @@
 import { ThemeToggle } from './theme-toggle';
 import { Button } from '@/components/ui/button';
-import { Gamepad2 } from 'lucide-react';
+import { Gamepad2, RotateCcw } from 'lucide-react';
 
 interface GameHeaderProps {
   onNewGame: () => void;
@@ -15,6 +15,9 @@ export function GameHeader({ onNewGame }: GameHeaderProps) {
           <h1 className="text-2xl font-bold tracking-tight font-headline">KachuFolio</h1>
         </div>
         <div className="flex items-center gap-2">
+          <Button variant="outline" size="sm" onClick={onNewGame}>
+            <RotateCcw className="mr-2 h-4 w-4" /> New Game
+          </Button>
           <ThemeToggle />
         </div>
       </div>

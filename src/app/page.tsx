@@ -4,7 +4,6 @@ import { AddPlayerForm } from '@/components/kachufolio/add-player-form';
 import { GameHeader } from '@/components/kachufolio/header';
 import { Scoreboard } from '@/components/kachufolio/scoreboard';
 import { useKachufolioGame } from '@/hooks/use-kachufolio-game';
-import { Button } from '@/components/ui/button';
 import { GameSetup } from '@/components/kachufolio/game-setup';
 
 export default function Home() {
@@ -68,11 +67,8 @@ export default function Home() {
               addRound={addRound}
               currentRoundCount={currentRoundCount}
             />
-            <div className="mt-8 flex flex-col sm:flex-row items-center justify-between gap-4">
+            <div className="mt-8 flex items-center justify-center">
               { !allPlayersAdded ? <AddPlayerForm onAddPlayer={addPlayer} /> : <div className="text-sm text-muted-foreground">All {numberOfPlayers} players have been added.</div> }
-              <Button variant="destructive" onClick={handleNewGame}>
-                New Game
-              </Button>
             </div>
           </>
         )}
