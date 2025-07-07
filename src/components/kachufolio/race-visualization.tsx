@@ -26,16 +26,16 @@ export function RaceVisualization({ players, totals }: RaceVisualizationProps) {
   const sortedPlayers = [...players].sort((a, b) => (totals[b.id] || 0) - (totals[a.id] || 0));
 
   return (
-    <Card className="mb-8">
-      <CardHeader>
-        <CardTitle className="text-center text-2xl font-bold tracking-tight flex items-center justify-center gap-2">
+    <Card className="mb-6">
+      <CardHeader className="p-4">
+        <CardTitle className="text-xl font-bold tracking-tight flex items-center justify-center gap-2">
           Race to Victory!
         </CardTitle>
       </CardHeader>
-      <CardContent className="p-6 pt-0">
+      <CardContent className="p-4 pt-0">
         <div 
-            className="relative pr-12"
-            style={{ height: `${sortedPlayers.length * 3.5}rem` }}
+            className="relative pr-10"
+            style={{ height: `${sortedPlayers.length * 3}rem` }}
         >
           {sortedPlayers.map((player, index) => {
             const score = totals[player.id] || 0;
@@ -45,27 +45,27 @@ export function RaceVisualization({ players, totals }: RaceVisualizationProps) {
             return (
               <div 
                 key={player.id} 
-                className="absolute w-full h-10"
-                style={{ top: `${index * 3.5}rem`}}
+                className="absolute w-full h-9"
+                style={{ top: `${index * 3}rem`}}
               >
-                <div className="absolute top-1/2 -translate-y-1/2 w-full h-2 bg-muted rounded-full">
+                <div className="absolute top-1/2 -translate-y-1/2 w-full h-1.5 bg-muted rounded-full">
                   <div 
-                    className="h-2 bg-primary rounded-full transition-all duration-500 ease-out"
+                    className="h-1.5 bg-primary rounded-full transition-all duration-500 ease-out"
                     style={{ width: `${progress}%` }}
                   ></div>
                 </div>
                 <div 
                   className="absolute top-0 transition-all duration-500 ease-out"
-                  style={{ left: `calc(${progress}% - 20px)` }}
+                  style={{ left: `calc(${progress}% - 18px)` }}
                 >
                     <div className="relative">
-                      <Avatar className="h-10 w-10 border-2 border-primary ring-2 ring-background shadow-lg bg-background">
+                      <Avatar className="h-9 w-9 border-2 border-primary ring-2 ring-background shadow-lg bg-background">
                         <AvatarFallback>{player.name.slice(0, 2).toUpperCase()}</AvatarFallback>
                       </Avatar>
                       {isWinning && (
-                        <Flame className="absolute -top-2 -right-3 h-6 w-6 text-amber-500 fill-amber-400 animate-pulse drop-shadow-lg" />
+                        <Flame className="absolute -top-1.5 -right-2 h-5 w-5 text-amber-500 fill-amber-400 animate-pulse drop-shadow-lg" />
                       )}
-                      <span className="absolute top-11 left-1/2 -translate-x-1/2 w-max text-xs font-semibold bg-background/80 px-1.5 py-0.5 rounded shadow">
+                      <span className="absolute top-9 left-1/2 -translate-x-1/2 w-max text-xs font-semibold bg-background/80 px-1.5 py-0.5 rounded shadow">
                         {player.name}
                       </span>
                     </div>
@@ -74,7 +74,7 @@ export function RaceVisualization({ players, totals }: RaceVisualizationProps) {
             );
           })}
           <div className="absolute top-1/2 -translate-y-1/2 right-0 h-full flex items-center">
-             <Trophy className="h-10 w-10 text-amber-400 stroke-1" />
+             <Trophy className="h-8 w-8 text-amber-400 stroke-1" />
           </div>
         </div>
       </CardContent>

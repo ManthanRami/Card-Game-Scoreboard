@@ -21,13 +21,13 @@ interface PlayerRowProps {
 export function PlayerRow({ player, playerScores, totalScore, updateBid, updateTaken, removePlayer, gameRounds, canAddRound }: PlayerRowProps) {
   return (
     <TableRow className="hover:bg-muted/20">
-      <TableCell className="sticky left-0 bg-card z-10 font-medium group">
+      <TableCell className="sticky left-0 bg-card z-10 font-medium group text-left">
         <div className="flex items-center justify-between">
             <div className="flex items-center gap-3">
               <Avatar className="h-9 w-9">
                 <AvatarFallback>{player.name.slice(0, 2).toUpperCase()}</AvatarFallback>
               </Avatar>
-              <span className="font-semibold text-base">{player.name}</span>
+              <span className="font-semibold">{player.name}</span>
             </div>
             <Button
                 variant="ghost"
@@ -50,8 +50,8 @@ export function PlayerRow({ player, playerScores, totalScore, updateBid, updateT
       ))}
        {canAddRound && <TableCell />}
       <TableCell className="sticky right-0 bg-card z-10 text-center">
-        <div className="flex items-center justify-center gap-3">
-          <Badge variant={totalScore > 0 ? "default" : "secondary"} className="text-lg font-bold bg-primary/10 text-primary border-primary/20 dark:bg-primary/20 dark:text-primary-foreground/80">
+        <div className="flex items-center justify-center gap-2">
+          <Badge variant={totalScore > 0 ? "default" : "secondary"} className="text-base font-bold bg-primary/10 text-primary border-primary/20 dark:bg-primary/20 dark:text-primary-foreground/80">
             {totalScore}
           </Badge>
           <AiAdvice player={player} scores={playerScores} totalScore={totalScore} gameRounds={gameRounds} />

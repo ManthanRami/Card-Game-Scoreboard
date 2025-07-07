@@ -36,14 +36,13 @@ export function Scoreboard({ players, scores, totals, updateBid, updateTaken, re
         <TableCaption>Kachufol Game Scoreboard</TableCaption>
         <TableHeader>
           <TableRow className="bg-muted/50">
-            <TableHead className="sticky left-0 bg-card z-10 w-[180px] font-semibold">Player</TableHead>
+            <TableHead className="sticky left-0 bg-card z-10 w-[140px] font-semibold text-left">Player</TableHead>
             {roundsToDisplay.map((roundIndex) => {
               const trumpSuit = trumpSuitSequence[roundIndex % trumpSuitSequence.length];
               return (
-                <TableHead key={roundIndex} className="text-center w-36">
-                  <div className="font-semibold">Round {roundIndex + 1}</div>
-                  <div className="text-xs font-normal text-muted-foreground mb-1">({gameRounds[roundIndex]} cards)</div>
-                  <div className="flex items-center justify-center h-8 mx-auto">
+                <TableHead key={roundIndex} className="text-center w-[100px]">
+                  <div className="font-semibold">R{roundIndex + 1} <span className="text-xs font-normal text-muted-foreground">({gameRounds[roundIndex]})</span></div>
+                  <div className="flex items-center justify-center h-6 mx-auto">
                     <SuitDisplay suit={trumpSuit} />
                   </div>
                 </TableHead>
@@ -57,7 +56,7 @@ export function Scoreboard({ players, scores, totals, updateBid, updateTaken, re
                 </Button>
               </TableHead>
             )}
-            <TableHead className="sticky right-0 bg-card z-10 text-center font-semibold w-[150px]">Total</TableHead>
+            <TableHead className="sticky right-0 bg-card z-10 text-center font-semibold w-[110px]">Total</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
