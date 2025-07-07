@@ -5,7 +5,7 @@ import { generateGameRounds, calculateScore, type Player, type GameState } from 
 
 const simpleId = () => Math.random().toString(36).substring(2, 9);
 
-const KACHUFOLIO_STORAGE_KEY = 'kachufolio-game-state';
+const KACHUFUL_STORAGE_KEY = 'kachuful-game-state';
 
 const getInitialState = (): GameState => ({
   players: [],
@@ -21,7 +21,7 @@ const getStoredState = (): GameState => {
       return getInitialState();
     }
     try {
-      const savedState = localStorage.getItem(KACHUFOLIO_STORAGE_KEY);
+      const savedState = localStorage.getItem(KACHUFUL_STORAGE_KEY);
       if (savedState) {
         const parsedState = JSON.parse(savedState) as GameState;
         if (parsedState.players && parsedState.scores && parsedState.numberOfPlayers && parsedState.currentRoundCount > 0) {
@@ -34,21 +34,21 @@ const getStoredState = (): GameState => {
       }
     } catch (error) {
       console.error("Failed to load game state from local storage", error);
-      localStorage.removeItem(KACHUFOLIO_STORAGE_KEY);
+      localStorage.removeItem(KACHUFUL_STORAGE_KEY);
     }
     return getInitialState();
 };
 
 
-export function useKachufolioGame() {
+export function useKachufulGame() {
   const [gameState, setGameState] = useState<GameState>(getStoredState);
 
   useEffect(() => {
     try {
       if (gameState.numberOfPlayers !== null && gameState.currentRoundCount > 0) {
-        localStorage.setItem(KACHUFOLIO_STORAGE_KEY, JSON.stringify(gameState));
+        localStorage.setItem(KACHUFUL_STORAGE_KEY, JSON.stringify(gameState));
       } else {
-        localStorage.removeItem(KACHUFOLIO_STORAGE_KEY);
+        localStorage.removeItem(KACHUFUL_STORAGE_KEY);
       }
     } catch (error) {
       console.error("Failed to save game state to local storage", error);
@@ -178,7 +178,7 @@ export function useKachufolioGame() {
   }, [updateScoreProperty]);
 
   const resetGame = useCallback(() => {
-    localStorage.removeItem(KACHUFOLIO_STORAGE_KEY);
+    localStorage.removeItem(KACHUFUL_STORAGE_KEY);
     localStorage.removeItem('hearts-game-state');
     setGameState(getInitialState());
   }, []);

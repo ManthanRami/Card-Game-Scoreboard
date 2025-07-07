@@ -117,7 +117,7 @@ export function useHeartsGame() {
 
   const resetGame = useCallback(() => {
     localStorage.removeItem(HEARTS_STORAGE_KEY);
-    localStorage.removeItem('kachufolio-game-state');
+    localStorage.removeItem('kachuful-game-state');
     setGameState(getInitialState());
   }, []);
 

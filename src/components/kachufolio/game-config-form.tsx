@@ -28,7 +28,7 @@ export function GameConfigForm({ onGameSetup }: GameConfigFormProps) {
         <Card className="w-full max-w-sm">
             <CardHeader>
                 <CardTitle>New Game Setup</CardTitle>
-                <CardDescription>Configure your Kachufol game.</CardDescription>
+                <CardDescription>Configure your Kachuful game.</CardDescription>
             </CardHeader>
             <form onSubmit={handleSubmitConfig}>
                 <CardContent>

@@ -58,8 +58,8 @@ export default function GameHub() {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
             <GameSelectionCard 
               href="/kachufolio"
-              title="KachuFolio"
-              description="A modern scoreboard for the strategic Indian card game, Kachufol. Track bids, tricks, and scores with ease."
+              title="Kachuful"
+              description="A modern scoreboard for the strategic Indian card game, Kachuful. Track bids, tricks, and scores with ease."
               imageUrl="https://placehold.co/600x400.png"
               imageHint="playing cards abstract"
               icon={Spade}

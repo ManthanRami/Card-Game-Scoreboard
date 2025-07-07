@@ -1,7 +1,7 @@
 
 # Modern Scoreboard Hub
 
-A modern, web-based scoreboard application designed to keep track of scores for popular card games like KachuFolio and Hearts. Built with Next.js, it offers a clean, responsive, and intuitive interface for a seamless game night experience.
+A modern, web-based scoreboard application designed to keep track of scores for popular card games like Kachuful and Hearts. Built with Next.js, it offers a clean, responsive, and intuitive interface for a seamless game night experience.
 
 ![Scoreboard Hub Screenshot](https://placehold.co/800x450.png)
 *A placeholder screenshot of the application.*
@@ -10,15 +10,15 @@ A modern, web-based scoreboard application designed to keep track of scores for 
 
 ## ✨ Features
 
-- **Dual Game Support**: Dedicated scoreboards for both **KachuFolio** and **Hearts**.
+- **Dual Game Support**: Dedicated scoreboards for both **Kachuful** and **Hearts**.
 - **Flexible Game Setup**:
-  - **KachuFolio**: Customizable number of players (2-10) and decks (1-3).
+  - **Kachuful**: Customizable number of players (2-10) and decks (1-3).
   - **Hearts**: Customizable number of players (3-5).
 - **Intuitive Score Entry**: Easy-to-use interface for inputting bids, tricks taken, and round scores.
 - **Real-time Score Calculation**: Automatic calculation of round and total scores based on game rules.
 - **Player Management**: Easily add, remove, and reorder players during the initial game setup.
-- **AI-Powered Advice**: Get strategic tips from an AI coach in KachuFolio to improve your gameplay, powered by Google AI and Genkit.
-- **Visualizations**: A "Race to Victory" chart in KachuFolio to visually track who's in the lead.
+- **AI-Powered Advice**: Get strategic tips from an AI coach in Kachuful to improve your gameplay, powered by Google AI and Genkit.
+- **Visualizations**: A "Race to Victory" chart in Kachuful to visually track who's in the lead.
 - **Persistent State**: Your game progress is automatically saved to your browser's local storage, so you can pick up where you left off.
 - **Dark/Light Mode**: A theme toggle for comfortable viewing in any lighting condition.
 - **Responsive Design**: Works beautifully on both desktop and mobile devices.
@@ -59,7 +59,7 @@ Follow these steps to get the project running on your local machine.
     ```
 
 3.  **Set up environment variables**:
-    Create a `.env` file in the root of the project and add your Google AI API key. This is required for the "AI Coach" feature in KachuFolio.
+    Create a `.env` file in the root of the project and add your Google AI API key. This is required for the "AI Coach" feature in Kachuful.
     ```
     GOOGLE_API_KEY="YOUR_API_KEY_HERE"
     ```
@@ -80,17 +80,17 @@ Here is a brief overview of the project's directory structure:
 ```
 src
 ├── app/                # Next.js App Router pages and layouts
-│   ├── kachufolio/     # KachuFolio game page
+│   ├── kachufolio/     # Kachuful game page
 │   └── hearts/         # Hearts game page
 ├── components/         # Reusable React components
 │   ├── ui/             # ShadCN UI components
-│   ├── kachufolio/     # Components specific to KachuFolio
+│   ├── kachufolio/     # Components specific to Kachuful
 │   └── hearts/         # Components specific to Hearts
 ├── hooks/              # Custom React hooks
-│   ├── use-kachufolio-game.ts # Core logic for the KachuFolio game
+│   ├── use-kachufolio-game.ts # Core logic for the Kachuful game
 │   └── use-hearts-game.ts     # Core logic for the Hearts game
 ├── lib/                # Core definitions, types, and utility functions
-│   └── kachufolio.ts   # Game rules, types, and round generation
+│   └── kachufolio.ts   # Game rules, types, and round generation for Kachuful
 └── ai/                 # Genkit flows and AI-related code
     └── flows/          # AI flows, e.g., the AI coach
 ```

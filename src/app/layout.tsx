@@ -3,8 +3,8 @@ import './globals.css';
 import { Toaster } from "@/components/ui/toaster";
 
 export const metadata: Metadata = {
-  title: 'KachuFolio',
-  description: 'A modern scoreboard for the Kachufol card game.',
+  title: 'Kachuful',
+  description: 'A modern scoreboard for the Kachuful card game.',
 };
 
 export default function RootLayout({

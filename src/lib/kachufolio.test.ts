@@ -1,6 +1,6 @@
 import { calculateScore, generateGameRounds } from './kachufolio';
 
-describe('Kachufolio Game Logic', () => {
+describe('Kachuful Game Logic', () => {
   describe('calculateScore', () => {
     it('should return 0 if bid is undefined', () => {
       expect(calculateScore(undefined, 5)).toBe(0);

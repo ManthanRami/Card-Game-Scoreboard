@@ -35,7 +35,7 @@ function ScoreboardComponent({ players, scores, totals, updateBid, updateTaken, 
       <CardContent className="p-0 sm:p-2">
          <div className="w-full overflow-auto">
           <Table>
-            <TableCaption>Kachufol Game Scoreboard</TableCaption>
+            <TableCaption>Kachuful Game Scoreboard</TableCaption>
             <TableHeader>
               <TableRow className="bg-muted/50">
                 <TableHead className="sticky left-0 bg-card z-10 w-[120px] p-2 font-semibold text-left">Player</TableHead>

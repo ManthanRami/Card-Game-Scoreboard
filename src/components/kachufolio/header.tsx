@@ -13,7 +13,7 @@ export function GameHeader({ onNewGame }: GameHeaderProps) {
       <div className="container flex h-16 items-center justify-between">
         <div className="flex items-center gap-2">
           <Gamepad2 className="h-7 w-7 text-primary" />
-          <h1 className="text-2xl font-bold tracking-tight font-headline">KachuFolio</h1>
+          <h1 className="text-2xl font-bold tracking-tight font-headline">Kachuful</h1>
         </div>
         <div className="flex items-center gap-2">
           <Button variant="ghost" size="icon" asChild>

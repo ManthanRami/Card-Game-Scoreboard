@@ -2,14 +2,14 @@
 
 import { GameHeader } from '@/components/kachufolio/header';
 import { Scoreboard } from '@/components/kachufolio/scoreboard';
-import { useKachufolioGame } from '@/hooks/use-kachufolio-game';
+import { useKachufulGame } from '@/hooks/use-kachufolio-game';
 import { GameSetup } from '@/components/kachufolio/game-setup';
 import { RaceVisualization } from '@/components/kachufolio/race-visualization';
 import { Button } from '@/components/ui/button';
 import { PlusCircle } from 'lucide-react';
 import { AdBanner } from '@/components/ad-banner';
 
-export default function KachufolioPage() {
+export default function KachufulPage() {
   const {
     players,
     scores,
@@ -25,7 +25,7 @@ export default function KachufolioPage() {
     setupGame,
     addRound,
     currentRoundCount,
-  } = useKachufolioGame();
+  } = useKachufulGame();
 
   const renderContent = () => {
     // If the game isn't fully set up (either config is missing or players are missing), show the setup component.
@@ -77,7 +77,7 @@ export default function KachufolioPage() {
         {renderContent()}
       </main>
       <footer className="text-center p-4 text-sm text-muted-foreground">
-        <p>Built for the modern Kachufol player.</p>
+        <p>Built for the modern Kachuful player.</p>
       </footer>
     </div>
   );

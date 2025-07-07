@@ -19,7 +19,7 @@ export function KachufolioGameSetup({ players, onAddPlayer, numberOfPlayers }: K
      <div className="flex items-center justify-center min-h-[calc(100vh-12rem)]">
         <Card className="w-full max-w-md">
             <CardHeader>
-                <CardTitle className="flex items-center gap-2"><Users /> KachuFolio Game Setup</CardTitle>
+                <CardTitle className="flex items-center gap-2"><Users /> Kachuful Game Setup</CardTitle>
                 <CardDescription>
                     The game is set for {numberOfPlayers} players. Add them below to begin.
                 </CardDescription>

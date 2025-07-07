@@ -40,7 +40,7 @@ export const generateGameRounds = (numberOfPlayers: number, numberOfDecks: numbe
 
 
 /**
- * Calculates the score for a single round based on Kachufol rules.
+ * Calculates the score for a single round based on Kachuful rules.
  * If the bid matches the tricks taken, the player gets 10 + bid points.
  * Otherwise, the player gets 0 points.
  * @param bid The number of tricks bid.
