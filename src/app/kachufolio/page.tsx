@@ -6,6 +6,8 @@ import { Scoreboard } from '@/components/kachufolio/scoreboard';
 import { useKachufolioGame } from '@/hooks/use-kachufolio-game';
 import { GameSetup } from '@/components/kachufolio/game-setup';
 import { RaceVisualization } from '@/components/kachufolio/race-visualization';
+import { Button } from '@/components/ui/button';
+import { PlusCircle } from 'lucide-react';
 
 export default function KachufolioPage() {
   const {
@@ -39,6 +41,7 @@ export default function KachufolioPage() {
   }
 
   const allPlayersAdded = players.length === numberOfPlayers;
+  const canAddRound = currentRoundCount < gameRounds.length;
 
   return (
     <div className="flex min-h-screen w-full flex-col bg-background font-sans text-foreground">
@@ -61,11 +64,21 @@ export default function KachufolioPage() {
               updateTaken={updateTaken}
               removePlayer={removePlayer}
               gameRounds={gameRounds}
-              addRound={addRound}
               currentRoundCount={currentRoundCount}
             />
-            <div className="mt-8 flex items-center justify-center">
-              { !allPlayersAdded ? <AddPlayerForm onAddPlayer={addPlayer} /> : <div className="text-sm text-muted-foreground">All {numberOfPlayers} players have been added.</div> }
+            <div className="mt-8 flex flex-col items-center justify-center gap-4">
+              {allPlayersAdded && canAddRound && (
+                <Button onClick={addRound} size="lg">
+                  <PlusCircle className="mr-2 h-4 w-4" />
+                  Start Round {currentRoundCount + 1}
+                </Button>
+              )}
+              {!allPlayersAdded && (
+                <div className="w-full max-w-sm">
+                  <p className="text-center text-sm text-muted-foreground mb-2">Add the remaining players to continue.</p>
+                  <AddPlayerForm onAddPlayer={addPlayer} />
+                </div>
+              )}
             </div>
           </>
         )}

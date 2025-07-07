@@ -15,10 +15,9 @@ interface PlayerRowProps {
   updateTaken: (playerId: string, roundIndex: number, taken: number) => void;
   removePlayer: (playerId: string) => void;
   gameRounds: number[];
-  canAddRound: boolean;
 }
 
-export function PlayerRow({ player, playerScores, totalScore, updateBid, updateTaken, removePlayer, gameRounds, canAddRound }: PlayerRowProps) {
+export function PlayerRow({ player, playerScores, totalScore, updateBid, updateTaken, removePlayer, gameRounds }: PlayerRowProps) {
   return (
     <TableRow className="hover:bg-muted/20">
       <TableCell className="sticky left-0 bg-card z-10 font-medium group text-left">
@@ -48,7 +47,6 @@ export function PlayerRow({ player, playerScores, totalScore, updateBid, updateT
           onTakenChange={(taken) => updateTaken(player.id, index, taken)}
         />
       ))}
-       {canAddRound && <TableCell />}
       <TableCell className="sticky right-0 bg-card z-10 text-center">
         <div className="flex items-center justify-center gap-2">
           <Badge variant={totalScore > 0 ? "default" : "secondary"} className="text-base font-bold bg-primary/10 text-primary border-primary/20 dark:bg-primary/20 dark:text-primary-foreground/80">
