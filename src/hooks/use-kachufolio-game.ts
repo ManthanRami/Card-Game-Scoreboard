@@ -1,30 +1,30 @@
 'use client';
 
 import { useState, useEffect, useCallback, useMemo } from 'react';
-import { GAME_ROUNDS, calculateScore, type Player, type GameState } from '@/lib/kachufolio';
-import { v4 as uuidv4 } from 'uuid';
+import { generateGameRounds, calculateScore, type Player, type GameState } from '@/lib/kachufolio';
 
-// uuid needs to be imported, but it's not in package.json. Let's add it.
-// Actually, I don't have permission to modify package.json.
-// I will use a simple random id generator.
 const simpleId = () => Math.random().toString(36).substring(2, 9);
-
 
 const KACHUFOLIO_STORAGE_KEY = 'kachufolio-game-state';
 
+const getInitialState = (): GameState => ({
+  players: [],
+  scores: {},
+  numberOfPlayers: null,
+  gameRounds: [],
+});
+
 export function useKachufolioGame() {
-  const [gameState, setGameState] = useState<GameState>({
-    players: [],
-    scores: {},
-  });
+  const [gameState, setGameState] = useState<GameState>(getInitialState());
 
   useEffect(() => {
     try {
       const savedState = localStorage.getItem(KACHUFOLIO_STORAGE_KEY);
       if (savedState) {
-        const parsedState = JSON.parse(savedState);
+        const parsedState: GameState = JSON.parse(savedState);
         // Basic validation
-        if (parsedState.players && parsedState.scores) {
+        if (parsedState.players && parsedState.scores && parsedState.numberOfPlayers) {
+          // If the game was in progress, load it.
           setGameState(parsedState);
         }
       }
@@ -40,14 +40,28 @@ export function useKachufolioGame() {
       console.error("Failed to save game state to local storage", error);
     }
   }, [gameState]);
+  
+  const setupGame = useCallback((numPlayers: number) => {
+    setGameState(() => {
+        const rounds = generateGameRounds(numPlayers);
+        return {
+            players: [],
+            scores: {},
+            numberOfPlayers: numPlayers,
+            gameRounds: rounds
+        };
+    });
+  }, []);
 
   const addPlayer = useCallback((name: string) => {
     setGameState((prev) => {
+      if (!prev.numberOfPlayers || prev.players.length >= prev.numberOfPlayers) return prev;
+
       if (prev.players.some(p => p.name.toLowerCase() === name.toLowerCase())) {
         return prev;
       }
       const newPlayer: Player = { id: simpleId(), name };
-      const newPlayerScores = Array(GAME_ROUNDS.length).fill({}).map(() => ({ score: 0 }));
+      const newPlayerScores = Array(prev.gameRounds.length).fill({}).map(() => ({ score: 0 }));
       return {
         ...prev,
         players: [...prev.players, newPlayer],
@@ -107,9 +121,9 @@ export function useKachufolioGame() {
   }, [updateScoreProperty]);
 
   const resetGame = useCallback(() => {
-    const confirmation = window.confirm("Are you sure you want to reset the game? All scores will be lost.");
+    const confirmation = window.confirm("Are you sure you want to start a new game? All progress will be lost.");
     if (confirmation) {
-      setGameState({ players: [], scores: {} });
+      setGameState(getInitialState());
     }
   }, []);
   
@@ -124,6 +138,7 @@ export function useKachufolioGame() {
 
   return {
     ...gameState,
+    setupGame,
     addPlayer,
     removePlayer,
     updateBid,

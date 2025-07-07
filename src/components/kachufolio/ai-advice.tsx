@@ -12,15 +12,15 @@ import { getAiAdvice } from '@/app/actions';
 import { useToast } from '@/hooks/use-toast';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import type { Player, RoundScore } from '@/lib/kachufolio';
-import { GAME_ROUNDS } from '@/lib/kachufolio';
 
 interface AiAdviceProps {
   player: Player;
   scores: RoundScore[];
   totalScore: number;
+  gameRounds: number[];
 }
 
-export function AiAdvice({ player, scores, totalScore }: AiAdviceProps) {
+export function AiAdvice({ player, scores, totalScore, gameRounds }: AiAdviceProps) {
   const [isPending, startTransition] = useTransition();
   const [advice, setAdvice] = useState<string | null>(null);
   const { toast } = useToast();
@@ -29,8 +29,8 @@ export function AiAdvice({ player, scores, totalScore }: AiAdviceProps) {
     startTransition(async () => {
       const biddingHistory = scores
         .map((s, i) => {
-          if (s.bid === undefined && s.taken === undefined) return null;
-          return `Round ${i + 1} (${GAME_ROUNDS[i]} cards): Bid ${s.bid ?? 'N/A'}, Took ${s.taken ?? 'N/A'}`;
+          if ((s.bid === undefined && s.taken === undefined) || gameRounds[i] === undefined) return null;
+          return `Round ${i + 1} (${gameRounds[i]} cards): Bid ${s.bid ?? 'N/A'}, Took ${s.taken ?? 'N/A'}`;
         })
         .filter(Boolean)
         .join('. ');

@@ -12,9 +12,23 @@ export interface RoundScore {
 export interface GameState {
   players: Player[];
   scores: Record<string, RoundScore[]>; // Player ID -> Array of round scores
+  numberOfPlayers: number | null;
+  gameRounds: number[];
 }
 
-export const GAME_ROUNDS = [8, 7, 6, 5, 4, 3, 2, 1, 2, 3, 4, 5, 6, 7, 8];
+export const generateGameRounds = (numberOfPlayers: number): number[] => {
+  if (numberOfPlayers < 2) return [];
+  // Standard 52 card deck
+  const maxCards = Math.floor(52 / numberOfPlayers);
+  if (maxCards < 1) return [];
+
+  const up = Array.from({ length: maxCards }, (_, i) => i + 1);
+  const down = Array.from({ length: maxCards }, (_, i) => maxCards - i);
+  
+  // As per user example: 1..max, max..1, 1..max
+  return [...up, ...down, ...up];
+};
+
 
 /**
  * Calculates the score for a single round based on Kachufol rules.
